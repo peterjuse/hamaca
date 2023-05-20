@@ -1,0 +1,105 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HAMACA</title>
+    <meta name="description" content="Webapp de control de Smart Gateway">
+    <meta name="author" content="Pedro Boll">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Estilos personales para el template -->
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    <!-- <link href="{% static 'css/dashboard.css' %}" rel="stylesheet"> -->
+
+    <!-- Estilos para iconos de FontAwesome -->
+<!--     <link href="{% static 'css/fontawesome-all.css' %}" rel="stylesheet"> -->
+
+    <script src="{% static 'js/jquery-3.3.1.js' %}" ></script>
+    <script defer src="{% static 'js/fontawesome/fa-brands.js' %}"></script>
+    <script defer src="{% static 'js/fontawesome/fa-regular.js' %}"></script>
+    <script defer src="{% static 'js/fontawesome/fa-solid.js' %}"></script>
+    <script src="{% static 'js/fontawesome/fontawesome-all.js' %}"></script>
+
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <h5><strong><center>HAMACA</center></strong></h5><span class=""></span> 
+      </div>
+      <center>
+        <ul class="list-unstyled components">
+          <li class="active">
+            <a href="{% url 'HomeApp:noderedcontrol' %}">
+              <i class="fas fa-home"></i>
+              <p>Hogar</p>
+            </a>
+          </li>
+          <li class="">
+            <a href="{% url 'MonitorApp:grafana' %}">
+              <i class="fas fa-chart-line"></i>
+              <p>Monitoreo</p>
+            </a>
+          </li>
+          <li class="">
+            <a href="{% url 'ControlApp:noderedrecipes' %}">
+              <i class="fas fa-toggle-on"></i>
+              <p>Control</p>
+            </a>
+          </li>
+          <li class="">
+            <a href="{% url 'RedesApp:redes' %}">
+            <i class="fas fa-signal"></i>
+            <p>Redes</p>
+          </a>
+          </li>
+          <li class="">
+            <a href="{% url 'ProcesamientoApp:procesamiento' %}">
+              <i class="fas fa-cogs"></i>
+              <p>Procesamiento</p>
+          </a>
+          </li>
+          <li class="">
+            <a href="{% url 'ConfiguracionApp:configuracion' %}">
+                <i class="fas fa-wrench"></i>  
+                <p>Configuraci&oacute;n</p>
+            </a>
+          </li>
+        </ul>
+        <div id="botonlogout">
+          <button type="button" id="logout" class="btn btn-secondary navbar-btn">
+            <a href="{% url 'salir' %}" style="color:#333;text-decoration:none">
+              <span id="logoutText">Cerrar Sesi&oacute;n</span>
+              <i class="fas fa-sign-out-alt"></i>
+            </a>
+          </button> 
+        </div>
+      </center>
+    </nav>
+    <div id="content">
+      <div class="container bordes-nulos">
+        <!-- Contenido especifico no heredado de base -->
+        {% block contenido %}
+        
+        {% endblock contenido %}
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Bootstrap core JavaScript
+  ================================================== 
+  Colocados al final del documento para permitir carga mas veloz -->
+  <script src="{% static 'js/popper.js' %}"></script>
+  <script src="{% static 'js/bootstrap/bootstrap.js' %}"></script>
+  <script src="{% static 'js/dashboard.js' %}"></script>
+    
+</body>
+</html>

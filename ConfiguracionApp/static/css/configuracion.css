@@ -1,0 +1,82 @@
+/* Popup container */
+.popup {
+    display: inline-block;
+    cursor: pointer;
+    transform: translate(-100%,50%);
+    z-index: 1;
+}
+
+/* El popup (aparece on top) */
+.popup .popuptext {
+    visibility: hidden;
+    width: 325px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: -50%;
+    left: 100%;
+    margin-left: -80px;
+}
+
+/* Flecha del popup */
+.popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 40%;
+    right: 100%;
+    margin-left: -5px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+    transform: rotate(90deg);
+}
+
+/* Para hacer aparecer al popup luego de clickear en el input */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+}
+
+/* Animacion (Mostrada en el popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+
+.reqList ul {
+    margin-bottom: 0;
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+
+/* Clases para colocar texto en colores requerido o no en el popup*/
+.req {
+    color: #cd4a4b;
+}
+
+.req-aproved {
+    color: LimeGreen;
+}
+
+#reqEmail {
+    bottom: 50%;
+}
+
+#reqPassword {
+    bottom: -250%;
+}
+
+#reqRePassword {
+    bottom: 20%;
+}

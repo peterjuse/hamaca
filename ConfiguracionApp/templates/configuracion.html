@@ -1,0 +1,540 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block contenido %}
+
+<div class="inner-content">
+  <div class='row'>
+      <div class='col-lg-12 titulo-bg'>
+          <h2 class="cabecera">Configuraci&oacute;n de la Aplicación</h2>
+      </div>
+  </div>
+  <br>
+  <div class='row'>
+      <div class='col-lg-12'>
+          <h3>Configuraci&oacute;n de servicios</h3>
+      </div>
+  </div>
+  <br>  
+  <div class='row'>
+      <div class='col-lg-4'>
+          <h5>Ubicaci&oacute;n del servicio de Grafana</h5>
+      </div>
+      <div class='col-lg-3' style="align-content: initial;">
+          <p id="grafanaurl" contenteditable="true">{{grafanaURL}}</p>
+      </div>
+      <div class='col-lg-1'>
+          <button type="button" class="btn btn-info" onclick="guardarGrafanaURL()">
+              <i class="fas fa-save"></i>
+          </button>
+      </div>
+      <div class="col-lg-4"></div>
+  </div>
+  <br>
+  <div class='row'>
+      <div class='col-lg-4'>
+          <h5>Ubicaci&oacute;n del servicio de Node-RED</h5>
+      </div>
+      <div class='col-lg-3' style="align-content: initial;">
+          <p id="noderedurl" contenteditable="true">{{noderedURL}}</p>
+      </div>
+      <div class='col-lg-1'>
+          <button type="button" class="btn btn-info" onclick="guardarNodeREDURL()">
+              <i class="fas fa-save"></i>
+          </button>
+      </div>
+      <div class='col-lg-4'></div>
+  </div>
+  <br>
+  <div class='row'>
+      <div class='col-lg-12'>
+      <h3>Configuraci&oacute;n de Usuarios</h3>
+      </div>
+  </div>
+  <div class='row'>
+    <div class="col-lg-12"> 
+        <br>
+      <!-- <h5>Registrar un nuevo usuario</h5> -->
+      <!-- Boton para activar modal de registro de usuario -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNuevoUsuario">
+        Crear nuevo usuario
+      </button>
+      <br>
+    </div>
+  </div>
+  <div class='row'>  
+    <div class="col-lg-12">
+      <br><h5>Lista de usuarios</h5><br>
+      <div class='table-responsive'>
+        <table class="table table-sd table-hover">
+          <thead class="thead-dark">
+              <tr>
+                  <th scope="col">Usuario</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Apellido</th>
+                  <th scope="col">Correo</th>
+                  <th scope="col">Opciones</th>
+              </tr>
+          </thead>
+          <tbody class="table-hover">
+            {% for usuario in usuarios %}
+                <tr>
+                  <!-- <td>{{usuario.id}}</td> -->
+                  <td>{{usuario.username}}</td>
+                  <td>{{usuario.first_name}}</td>
+                  <td>{{usuario.last_name}}</td>
+                  <td>{{usuario.email}}</td>
+                  <td>
+                    <button type="button" class="btn btn-info" onclick="abrirModalEditarUsuario({{usuario.id}})">
+                        <i class="fas fa-edit"></i>
+                    </button> 
+                    <button type="button" class="btn btn-danger" onclick="abrirModalBorrarUsuario({{usuario.id}})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              {% endfor %}
+          </tbody>
+        </table>  
+      </div>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+      <div class="pagination" style="text-align:center;">
+        <span class="step-links">
+        {% if usuarios.has_previous %}
+          <a href="?pagina=1">&laquo; primera</a>
+          <a href="?pagina={{ usuarios.previous_page_number }}">anterior</a>
+        {% endif %}
+        <span class="current">
+          Pagina {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}
+        </span>
+        {% if usuarios.has_next %}
+          <a href="?pagina={{ usuarios.next_page_number }}">siguiente</a>
+          <a href="?pagina={{ usuarios.paginator.num_pages }}">ultimo &raquo;</a>
+        {% endif %}
+        </span>
+      </div>
+    </div>
+    <div class="col-lg-3"></div>
+  </div>
+
+</div>
+
+<link href="{% static 'css/ConfiguracionApp/configuracion.css' %}" rel="stylesheet">
+<script src="{% static 'js//ConfiguracionApp/configuracion.js' %}"></script>
+
+<!-- ############# MODALES DEL PROCESO DE CREACION DE USUARIOS ############# -->
+<!-- Modal crear usuario-->
+<div class="modal fade" id="modalNuevoUsuario" tabindex="-1" role="dialog" aria-labelledby="modalRegistroUsuario" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalCrearUsuario1">Registrar un nuevo usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post" id="registroUsuario"> 
+            <div class="form-group">
+              <label>Nombre de usuario:</label><br>
+              <div class="row">
+                <div class="col-sm-12">
+                  <input class="form-control" type="text" name="usuario" id="usuario" placeholder="Usuario" required> 
+                </div>
+                <!-- popup de validacion -->
+                <div class="popup">
+                  <span class="popuptext reqList" id="reqUsuario">
+                    <ul>
+                      <li class="req-aproved"> 
+                        <i class="fas fa-ban" style='display:contents;'></i>
+                        <i class="fas fa-check-circle" style='display:inline;'></i> 
+                        El nombre de usuario debe ser unico  
+                      </li>
+                      <li class="req"> 
+                        <i class="fas fa-ban" style='display:inline;'></i>
+                        <i class="fas fa-check-circle" style='display:contents;'></i> 
+                        El nombre de usuario debe tener entre 4 y 15 letras
+                      </li>
+                      <li class="req">
+                        <i class="fas fa-ban" style='display:inline;'></i> 
+                        <i class="fas fa-check-circle" style='display:contents;'></i> 
+                        El nombre de usuario debe comenzar por una letra
+                      </li>
+                      <li class="req">
+                        <i class="fas fa-ban" style='display:inline;'></i> 
+                        <i class="fas fa-check-circle" style='display:contents;'></i> 
+                        El nombre de usuario debe contener solo letras, n&uacute;meros o los caracteres _, @, +, . y -
+                      </li>
+                    </ul>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Nombre:</label><br>
+              <input class="form-control" type="text" name="nombre" placeholder="Nombre">
+            </div> 
+            <div class="form-group">
+              <label>Apellido:</label><br>
+              <input class="form-control" type="text" name="apellido" placeholder="Apellido">
+            </div>
+            <div class="form-group">
+              <label>Correo:</label><br>
+              <div class="row">
+                <div class="col-sm-12">
+                  <input class="form-control" type="email" id="email" name="correo" placeholder="correo@ejemplo.com">
+                </div>
+                <!-- popup de validacion -->
+                <div class="popup">
+                  <span class="popuptext reqList" id="reqEmail">
+                    <ul>
+                      <li class="req"> 
+                        <i class="fas fa-ban" style='display:inline;'></i>
+                        <i class="fas fa-check-circle" style='display:contents;'></i> 
+                        El correo debe tener un un formato valido</li>
+                    </ul>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Contrase&ntilde;a:</label><br>
+              <div class="row">
+                <div class="col-sm-12">
+                  <input class="form-control" type="password" id="password" name="password" placeholder="Contrase&ntilde;a" required>
+                </div>
+                <!-- popup de validacion -->
+                <div class="popup">
+                  <span class="popuptext reqList" id="reqPassword">
+                    <ul>
+                      <li class="req"> 
+                        <i class="fas fa-ban" style='display:inline;'></i>
+                        <i class="fas fa-check-circle" style='display:contents;'></i> 
+                        La contrase&ntilde;a debe tener entre 8 y 15 caracteres
+                      </li>
+                      <li class="req">
+                        <i class="fas fa-ban" style='display:inline;'></i>
+                        <i class="fas fa-check-circle" style='display:contents;'></i> 
+                        La contrase&ntilde;a debe tener entre al menos una letra Mayuscula
+                      </li>
+                      <li class="req">
+                        <i class="fas fa-ban" style='display:inline;'></i>
+                        <i class="fas fa-check-circle" style='display:contents;'></i> 
+                        La contrase&ntilde;a debe tener entre al menos un n&uacute;mero
+                      </li>
+                      <li class="req">
+                        <i class="fas fa-ban" style='display:inline;'></i>
+                        <i class="fas fa-check-circle" style='display:contents;'></i> 
+                        La contrase&ntilde;a debe tener entre al menos un caracter especial. Puede usar los siguientes caracteres: #, ?, !, @, $, %, ^, &, *, -, ., _, = o +
+                      </li>
+                    </ul>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Por favor repita la contrase&ntilde;a:</label><br>
+              <div class="row">
+                <div class="col-sm-12">
+                  <input class="form-control" type="password" name="repassword" placeholder="Contrase&ntilde;a" id="repassword" required>
+                </div>
+                <!-- popup de validacion -->
+                <div class="popup">
+                  <span class="popuptext reqList" id="reqRePassword">
+                    <ul>
+                      <li class="req"> 
+                        <i class="fas fa-ban" style='display:inline;'></i>
+                        <i class="fas fa-check-circle" style='display:contents;'></i> 
+                        El campo debe ser igual al campo de la contrase&ntilde;a
+                      </li>
+                     </ul>
+                  </span>
+                </div>
+              </div>
+            </div> 
+            <br>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Atras</button>
+        <button id="botonCrear" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalValidarRegistroUsuario" data-dismiss="modal" onclick="CopiarFomularioCrearUsuario()" disabled>Continuar</button>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<!-- Modal validar datos para crear usuario -->
+<div class="modal fade" id="modalValidarRegistroUsuario" tabindex="-1" role="dialog" aria-labelledby="modalValidarRegistroUsuario" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalCrearUsuario2">Asegurese que los datos son correctos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- aqui va el formulario con ajax para validar la contrasena -->
+        Por favor, observe los datos atentamente. Si los datos son correctos, pulse el boton Crear usuario, de lo contrario presione Atras.<br><br>
+        <div class="form-group">
+          <label>Nombre de usuario:</label><br>
+          <input class="form-control" type="text" name="usuario" placeholder="Usuario" disabled id="usernameVR">
+        </div>
+        <div class="form-group">
+            <label>Nombre:</label><br>
+            <input class="form-control" type="text" name="nombre" placeholder="Nombre" disabled id="firstNameVR">
+        </div>
+        <div class="form-group">
+            <label>Apellido:</label><br>
+            <input class="form-control" type="text" name="apellido" placeholder="Apellido" disabled id="lastNameVR">
+        </div>
+        <div class="form-group">
+            <label>Correo:</label><br>
+            <input class="form-control" type="email" name="correo" placeholder="correo@ejemplo.com" disabled id="emailVR">
+        </div>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#modalNuevoUsuario">Atras</button>
+        <button type="button" class="btn btn-danger" onclick="crearUsuario()">Crear usuario</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal resultado crear usuario -->
+<div class="modal fade" id="modalResultadoCrearUsuario" tabindex="-1" role="dialog" aria-labelledby="modalResultadoUsuario" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="UsuarioCreadoStatus"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="msgModalCrearUsuarioRes"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="rstModalRes(this.parentElement.parentElement.parentElement.parentElement)">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ####################################################################### -->
+
+
+
+<!-- ########## MODALES DEL PROCESO DE MODIFICACION DE USUARIOS ############ -->
+<!-- Modal modificar usuario-->
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="modalRegistroUsuario" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post" id="edicionUsuario">
+            <div class="form-group">
+                <label>Nombre de usuario:</label><br>
+                <input class="form-control" type="text" name="up_usuario" placeholder="Usuario" disabled>
+            </div>
+            <div class="form-group">
+                <label>Nombre:</label><br>
+                <input class="form-control" type="text" name="up_nombre" placeholder="Nombre">
+            </div> 
+            <div class="form-group">
+                <label>Apellido:</label><br>
+                <input class="form-control" type="text" name="up_apellido" placeholder="Apellido">
+            </div>
+            <div class="form-group">
+              <label>Correo:</label><br>
+              <input class="form-control" type="email" name="up_correo" placeholder="correo@ejemplo.com">
+              <!-- popup de validacion -->
+              <!-- <div class="popup">
+                <span class="popuptext reqList" id="reqEmail_up">
+                  <ul>
+                    <li class="req"> 
+                      <i class="fas fa-ban" style='display:inline;'></i>
+                      <i class="fas fa-check-circle" style='display:contents;'></i> 
+                      El correo debe tener un un formato valido</li>
+                  </ul>
+                </span>
+              </div> -->
+            </div>
+            <div class="form-group">
+              <label>Contrase&ntilde;a:</label><br>
+              <input class="form-control" type="password" name="up_contrasena" placeholder="Contrase&ntilde;a">
+              <!-- popup de validacion -->
+              <!-- <div class="popup">
+                <span class="popuptext reqList" id="reqPassword_up">
+                  <ul>
+                    <li class="req"> 
+                      <i class="fas fa-ban" style='display:inline;'></i>
+                      <i class="fas fa-check-circle" style='display:contents;'></i> 
+                      La contrase&ntilde;a debe tener entre 8 y 15 caracteres
+                    </li>
+                    <li class="req">
+                      <i class="fas fa-ban" style='display:inline;'></i>
+                      <i class="fas fa-check-circle" style='display:contents;'></i> 
+                      La contrase&ntilde;a debe tener entre al menos una letra Mayuscula
+                    </li>
+                    <li class="req">
+                      <i class="fas fa-ban" style='display:inline;'></i>
+                      <i class="fas fa-check-circle" style='display:contents;'></i> 
+                      La contrase&ntilde;a debe tener entre al menos un n&uacute;mero
+                    </li>
+                    <li class="req">
+                      <i class="fas fa-ban" style='display:inline;'></i>
+                      <i class="fas fa-check-circle" style='display:contents;'></i> 
+                      La contrase&ntilde;a debe tener entre al menos un caracter especial. Puede usar los siguientes caracteres: #, ?, !, @, $, %, ^, &, *, -, ., _, = o +
+                    </li>
+                  </ul>
+                </span>
+              </div> -->
+            </div>
+            <div class="form-group">
+              <label>Por favor repita la contrase&ntilde;a:</label><br>
+              <input class="form-control" type="password" name="up_contrasenavalidate" placeholder="Contrase&ntilde;a">
+              <!-- popup de validacion -->
+              <!-- <div class="popup">
+                <span class="popuptext reqList" id="reqRePassword_up">
+                  <ul>
+                    <li class="req"> 
+                      <i class="fas fa-ban" style='display:inline;'></i>
+                      <i class="fas fa-check-circle" style='display:contents;'></i> 
+                      El campo debe ser igual al campo de la contrase&ntilde;a
+                    </li>
+                    </ul>
+                </span>
+              </div> -->
+            </div> 
+            <br>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="botonEditar" type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#modalValidarEditarUsuario" onclick="CopiarFomularioEditarUsuario()">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal validar contrasena para editar usuario -->
+<div class="modal fade" id="modalValidarEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="modalValidarEditarUsuario" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalValidarEditar">Modificar usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Por favor ingrese la clave actual del usuario y presione el boton Continuar<br><br>
+        <center><input type="password" id="validarPasswordEditarUsuario"></center>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal"data-toggle="modal" data-target="#modalEditarUsuario">Atras</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal"data-toggle="modal" data-target="#modalResultadoEditarUsuario" onclick="editarUsuario()">Modificar usuario</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal resultado editar usuario -->
+<div class="modal fade" id="modalResultadoEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="modalResultadoEditarUsuario" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="UsuarioEditadoStatus"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="msgModalEditarUsuarioRes"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ####################################################################### -->
+
+
+
+<!-- ########### MODALES DEL PROCESO DE ELIMINACION DE USUARIOS ############ -->
+<!-- Modal seguro borrar usuario-->
+<div class="modal fade" id="modalSeguroBorrarUsuario" tabindex="-1" role="dialog" aria-labelledby="modalBorrarUsuario" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalBorrar1">Eliminar usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Atenci&oacute;n, la siguiente acci&oacute;n no puede deshacerse. ¿Est&aacute; seguro que desea borrar el usuario?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+        <button id="botonBorrar" type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#modalValidarBorrarUsuario">Continuar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal validar contrasena para borrar usuario -->
+<div class="modal fade" id="modalValidarBorrarUsuario" tabindex="-1" role="dialog" aria-labelledby="modalBorrarUsuario" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalBorrar2">Eliminar usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- aqui va el formulario con ajax para validar la contrasena -->
+        Por favor, ingrese la clave del usuario<br><br>
+        <center><input type="password" id="validarPasswordBorarUsuario"></center>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal"data-toggle="modal" data-target="#modalBorrarUsuario">Atras</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal"data-toggle="modal" data-target="#modalResultadoBorrarUsuario" onclick="borrarUsuario()">Borrar usuario</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal resultado borrar usuario -->
+<div class="modal fade" id="modalResultadoBorrarUsuario" tabindex="-1" role="dialog" aria-labelledby="modalResultadoBorrarUsuario" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="UsuarioBorrarStatus"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="msgModalBorrarUsuarioRes"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ####################################################################### -->
+
+{% endblock %}

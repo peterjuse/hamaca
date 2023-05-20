@@ -1,0 +1,47 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Webapp de control de Smart Gateway">
+    <meta name="author" content="Pedro Boll">
+    <link rel="icon" href="">
+
+    <title>HAMACA</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+
+    <script defer src="{% static 'js/fontawesome/fa-brands.js' %}"></script>
+    <script defer src="{% static 'js/fontawesome/fa-regular.js' %}"></script>
+    <script defer src="{% static 'js/fontawesome/fa-solid.js' %}"></script>
+    <script src="{% static 'js/fontawesome/fontawesome-all.js' %}"></script>
+
+  </head>
+
+  <body class="text-center">
+    <form class="form-signin" method="post">
+      {% csrf_token %}
+      <h2 class="h3 mb-3 font-weight-normal">Bienvenido a HAMACA</h2>
+      <br>
+      <h5>Por favor, Inicie Sesi&oacute;n</h5>
+      <label for="inputUser" class="sr-only">Usuario</label>
+      <div class="input-group">
+        <!-- <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span> -->
+        <input type="user" id="inputUser" class="form-control" placeholder="usuario" name="username"required autofocus>
+      </div>
+      <label for="inputPassword" class="sr-only">Contrase&ntilde;a</label>
+      <div class="input-group">
+        <!-- <span class="input-group-addon" id="basic-addon2"><i class="fa fa-key" aria-hidden="true"></i></span> -->
+        <input type="password" id="inputPassword" class="form-control" placeholder="contrase&ntilde;a" required name="password">
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesi&oacute;n</button>
+      <p class="mt-5 mb-3 text-muted">&copy; 2018</p>
+    </form>
+  </body>
+</html>

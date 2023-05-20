@@ -1,0 +1,18 @@
+[
+{
+    "model": "ConfiguracionApp.variables",
+    "pk": 1,
+    "fields": {
+        "nombre": "grafana_url",
+        "valor": "http://192.168.1.101:3000"
+    }
+},
+{
+    "model": "ConfiguracionApp.variables",
+    "pk": 2,
+    "fields": {
+        "nombre": "nodered_url",
+        "valor": "http://192.168.1.101:1880"
+    }
+}
+]

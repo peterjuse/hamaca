@@ -1,0 +1,38 @@
+[
+{
+    "model": "RedesApp.mqttdef",
+    "pk": 4,
+    "fields": {
+        "nombre": "Indoor/Temperatura",
+        "status": true,
+        "cant_mensajes": 62738,
+        "mensajes_minuto": 28,
+        "payload": "DHT11: Temp = 23.0 C - Hora: 2019-10-06 19:55:42.177400",
+        "hora": "2019-10-06T23:55:42.164Z"
+    }
+},
+{
+    "model": "RedesApp.mqttdef",
+    "pk": 5,
+    "fields": {
+        "nombre": "Indoor/Humedad",
+        "status": true,
+        "cant_mensajes": 62791,
+        "mensajes_minuto": 28,
+        "payload": "DHT11: HR = 40.0% - Hora: 2019-10-06 19:55:42.177542",
+        "hora": "2019-10-06T23:55:42.184Z"
+    }
+},
+{
+    "model": "RedesApp.mqttdef",
+    "pk": 6,
+    "fields": {
+        "nombre": "Outdoor/Temperatura",
+        "status": false,
+        "cant_mensajes": 6,
+        "mensajes_minuto": 1,
+        "payload": "DHT11: Temp = 21.0 C - Hora: 04-10-2019 14:56:45",
+        "hora": "2019-10-04T18:46:53.762Z"
+    }
+}
+]

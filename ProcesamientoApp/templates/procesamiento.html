@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block contenido %}
+<link href="{% static 'css/bokeh/bokeh-1.2.0.min.css' %}" rel=”stylesheet” type=”text/css”>
+<link href="{% static 'css/bokeh/bokeh-widgets-1.2.0.min.css' %}" rel=”stylesheet” type=”text/css”>
+<script src="{% static 'js/bokeh/bokeh-1.2.0.min.js' %}" ></script>
+<script src="{% static 'js/bokeh/bokeh-widgets-1.2.0.min.js' %}"></script>
+{{ script | safe}}
+
+<div class="inner-content">
+    <div class='row titulo-bg'>
+        <div class='col-lg-12'>
+            <h2 class="cabecera">Procesamiento de datos</h2>
+        </div>
+    </div>
+    <br>
+    <div class='row'>
+        <div class='col-lg-12'>
+          <h3>Optimizaci&oacute;n de datos</h3>
+      </div>
+    </div>
+    <br>
+    <div class='row'>
+        <div class='col-lg-12'>
+            <h5>Seleción de medici&oacute;n</h5>
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-lg-4'>
+            <p>Por favor, seleccione la ubicación del dispositivo</p>
+            <select id="ubicacionlista" onchange="seleccionar_ubicacion(value);">
+                <option value="Selecionar" label="Selecionar"></option>
+                {% for ubicacion in ubicaciones %}
+                    <option value="{{ubicacion}}" label="{{ubicacion}}"></option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class='col-lg-4' id="columndispositivo" hidden>
+            <p>Por favor, seleccione un dispositivo</p>
+            <select id="dispositivoslista" onchange="seleccionar_dispositivo(value);" >
+            </select>
+        </div>
+        <div class='col-lg-4' id="columnmedicion" hidden>
+            <p>Por favor, seleccione un medici&oacute;n</p>
+            <select id="medicioneslista" onchange="seleccionar_medicion(value);">
+            </select>
+        </div>
+    </div>
+    <div class="row" id="procedimientoOptimizacion" hidden>
+        <div class="col-lg-6">
+            <br>
+            <p>Esta es la grafica actual de los datos medidos en la &uacute;ltima semana</p>
+            <div id="bokeh_graph">{{ div | safe }}</div>
+        </div>
+        <div class="col-lg-6">
+
+        </div>
+    </div>
+    <br>
+    <div class='row'>
+        <div class='col-lg-12'>
+          <h3>Predici&oacute;nes basadas en series de tiempo</h3>
+      </div>
+    </div>
+    <br>
+    <div class='row'>
+        <div class='col-lg-12'>
+            <h5>Medici&oacute;n</h5>
+        </div>
+    </div>
+    <br>
+    <div class='row'>
+        <div class='col-lg-12'>
+            <h5>Grafica</h5>
+            {{ div | safe }}
+        </div>
+    </div>
+    <br>
+    <div class='row'>
+        <div class='col-lg-12'>
+          <h3>Configuraci&oacute;n de c&oacute;mputo en la nube</h3>
+      </div>
+    </div>
+    <br>
+    <div class='row'>
+        <div class='col-lg-12'>
+            <h5>Conexiones</h5>
+        </div>
+    </div>
+    <br>
+</div>
+  
+<link href="{% static 'css/ProcesamientoApp/configuracion.css' %}" rel="stylesheet">
+<script src="{% static 'js/ProcesamientoApp/configuracion.js' %}"></script>
+
+{% endblock %}

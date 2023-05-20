@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+
+{% block contenido %}
+
+<iframe id='GrafanaIframe'
+src="{{grafanaURL}}" 
+style="position: absolute; width: 85.2%; height: 100% ; border: 0;"
+frameborder="0"
+width="100%"
+marginheight="0"
+marginwidth="0"
+scrolling="no">
+</iframe>
+
+{% endblock contenido %}
