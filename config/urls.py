@@ -15,16 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth.views import login, logout
+from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',login, {'template_name':'login.html'},name='login'),
-    path('salir',logout,{'next_page':'/'},name="salir"),
-    path('hamaca/',include('HomeApp.urls')),
-    path('hamaca/monitor/',include('MonitorApp.urls')),
-    path('hamaca/control/',include('ControlApp.urls')),
-    path('hamaca/redes/',include('RedesApp.urls')), 
-    path('hamaca/procesamiento/',include('ProcesamientoApp.urls')),
-    path('hamaca/configuracion/',include('ConfiguracionApp.urls')),   
+    path('', LoginView.as_view(template_name='login.html'), name='login'),
+    path('salir', LogoutView.as_view(template_name="salir", next_page='/'), name="salir"),
+    path('hamaca/', include('HomeApp.urls')),
+    path('hamaca/monitor/', include('MonitorApp.urls')),
+    path('hamaca/control/', include('ControlApp.urls')),
+    path('hamaca/redes/', include('RedesApp.urls')), 
+    path('hamaca/procesamiento/', include('ProcesamientoApp.urls')),
+    path('hamaca/configuracion/', include('ConfiguracionApp.urls')),   
 ]

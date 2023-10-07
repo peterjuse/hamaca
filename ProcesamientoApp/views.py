@@ -18,27 +18,27 @@ from math import pi
 
 @login_required(login_url='/')
 def to_procesamiento(request):
-    cliente = InfluxDBClient(host='127.0.0.1',port=8086, username='gateway',
-                        password='MedicionesIoTDB',database='SensorData')
-    # Query de obtencion de las ubicaciones
-    res = cliente.query('SHOW TAG VALUES WITH KEY="region"')
-    cliente.close()
-    ubicaciones = set()
-    for i in res:
-        ubicaciones.add(i[0]['value'])
+    # cliente = InfluxDBClient(host='127.0.0.1',port=8086, username='gateway',
+    #                     password='MedicionesIoTDB',database='SensorData')
+    # # Query de obtencion de las ubicaciones
+    # res = cliente.query('SHOW TAG VALUES WITH KEY="region"')
+    # cliente.close()
+    # ubicaciones = set()
+    # for i in res:
+    #     ubicaciones.add(i[0]['value'])
 
-    plot = figure(plot_height=300, sizing_mode='scale_width',
-                    tools="pan,wheel_zoom,box_zoom,reset")
-    x = []
-    y = []
-    script, div = components(plot)
+    # plot = figure(plot_height=300, sizing_mode='scale_width',
+    #                 tools="pan,wheel_zoom,box_zoom,reset")
+    # x = []
+    # y = []
+    # script, div = components(plot)
 
-    context = {
-        'ubicaciones':sorted(ubicaciones),
-        'script': script,
-        'div': div,
-    }   
-    return render(request,'procesamiento.html',context)
+    # context = {
+    #     'ubicaciones':sorted(ubicaciones),
+    #     'script': script,
+    #     'div': div,
+    # }   
+    return render(request,'procesamiento.html')#,context)
 
 def obtener_ubicaciones(request):
     if  request.method == "POST" and request.is_ajax():

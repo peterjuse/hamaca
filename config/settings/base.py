@@ -20,7 +20,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(os.path.join(
 # Variable de seguridad con la clave secreta
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
-
 ALLOWED_HOSTS = ['*']
 
 
