@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
         "nombre": "grafana_url",
-        "valor": "localhost:3000"
+        "valor": "http://localhost:3000"
     }
 },
 {
@@ -12,7 +12,7 @@
     "pk": 2,
     "fields": {
         "nombre": "nodered_url",
-        "valor": "localhost:1880"
+        "valor": "http://localhost:1880"
     }
 }
 ]
