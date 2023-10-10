@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.abspath(os.path.join(
 # Variable de seguridad con la clave secreta
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
+# Hosts que se pueden conectar desde la base
 ALLOWED_HOSTS = ['*']
 
 
 # Definiciones de la aplicacion
-
 INSTALLED_APPS = [
     'django.contrib.auth', 
     'django.contrib.contenttypes',
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'ProcesamientoApp',
     'ConfiguracionApp',
 ]
+
 
 MIDDLEWARE = [
     'allow_cidr.middleware.AllowCIDRMiddleware',
@@ -69,7 +70,9 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'config.wsgi.application'
+
 
 DATABASES = {
     'default': {
@@ -118,10 +121,10 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
 
 # Variable de redireccion despues de un login
 LOGIN_REDIRECT_URL = reverse_lazy('HomeApp:noderedcontrol')

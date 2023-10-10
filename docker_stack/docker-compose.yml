@@ -12,7 +12,14 @@ services:
     ports:
       - 8086:8086
     volumes:
-      - influx-storage:/var/lib/influxdb
+      - influx-storage:/var/lib/influxdb2:rw
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup 
+      - DOCKER_INFLUXDB_INIT_USERNAME=gateway
+      - DOCKER_INFLUXDB_INIT_PASSWORD=MedicionesIoTDB
+      - DOCKER_INFLUXDB_INIT_ORG=hamaca 
+      - DOCKER_INFLUXDB_INIT_BUCKET=SensorData
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=edge
   # prometheus:
   #   image: prom/prometheus
   #   ports:
@@ -35,11 +42,12 @@ services:
     depends_on:
       - influxdb
   nodered:
-    image: nodered/node-red
+    image: node-red-teg
     ports:
       - "1880:1880"
     volumes:
       - nodered-storage:/data
+      - ./node_red_teg/settings.js:/data/settings.js
 
 volumes:
   grafana-storage:
