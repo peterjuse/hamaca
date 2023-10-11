@@ -7,10 +7,10 @@
 </p>
 
 
-# Herramienta de Automatización, Monitoreo y Analisis de Componentes y Artefactos (HAMACA)
+# Herramienta de Automatización, Monitoreo y Análisis de Componentes y Artefactos (HAMACA)
 
 ## Introducción 
-Este es el repositorio de la aplicación "Herramienta de Automatización, Monitoreo y Analisis de Componentes y Artefactos" (HAMACA), que tiene como fin el de ser un framework para laboratorios de IoT y entorno de purebas y desarollos en el area de la automatización de procesos. Ademas este repositorio tambien contiene las configuraciones de herramientas integradas a este proyecto.
+Este es el repositorio de la aplicación "Herramienta de Automatización, Monitoreo y Análisis de Componentes y Artefactos" (HAMACA), que tiene como fin el de ser un framework para laboratorios de IoT y entorno de purebas y desarollos en el area de la automatización de procesos. Ademas este repositorio tambien contiene las configuraciones de herramientas integradas a este proyecto.
 
 Este proyecto academico se realiza como parte del desarrollo e investigación realizado dentro del marco del Trabajo Especial de Grado para la [Escuela de Computación](http://computacion.ciens.ucv.ve/escueladecomputacion/) de la [Facultad de Ciencias](http://www.ciens.ucv.ve/ciens/) de la [Universidad Central de Venezuela](http://www.ucv.ve/) del bachiller Pedro Boll.
 
@@ -24,13 +24,13 @@ Este proyecto usa las imagenes docker de varias integraciones. Se anexa la [docu
 Esta webapp esta desarrollada en el lenguaje de programación Python en su version 3.10. Esta es [la página oficial del lenguaje](https://www.python.org/) y su [sección de descargas](https://www.python.org/downloads/) en caso de que no se posea en el sistema operativo
 
 ### Postgresql
-La aplicación web requiere para su funcionamiento y el almacenamiento de data referente a si misma la base de datos postgresql. En este [link oficial](https://www.postgresql.org/download/) con los instaladores y las instrucciones para poder instalarlo en los diversos dispositivos disponibles. Se requiere que una vez instalado el sistema manejador, crear una base de datos de nombre `hamaca` y un usuario gateway con el cual se pueda conectar la app a ella al momento de hacer las migraciones de los modelos de django a la base de datos.
+La aplicación web requiere para su funcionamiento y el almacenamiento de data referente a si misma la base de datos postgresql. En este [link oficial](https://www.postgresql.org/download/) con los instaladores y las instrucciones para poder instalarlo en los diversos dispositivos disponibles. Se requiere que una vez instalado el sistema manejador, crear una base de datos y un usuario con el cual se pueda conectar la app a ella al momento de hacer las migraciones de los modelos de django a la base de datos. Estos datos deben guardarse en como variables de entorno para la ejecución en producción.
 
 ### Mosquitto
 Mosquitto es la implementación del protocolo MQTT que se utiliza en este trabajo de investigación. Tiene la capacidad de actuar como cliente y broker. Se deja link a la [documentación oficial](https://mosquitto.org/download/) para su instalación. Tambien es posible utilizar cualquier otra implementación del protocolo MQTT sea local o en la nube. 
 
 ### Nginx
-En el caso de querer desplegar esto en el modo de ambiente de producción tambien se requiere tener el Stack de Nginx configurado y activo. [Se puede seguir la guía de instalación oficial](https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/) según la plataforma deseada
+En el caso de querer desplegar esto en el modo de ambiente de producción tambien se requiere tener Nginx, instalado, configurado y activo. [Se puede seguir la guía de instalación oficial](https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/) según la plataforma en la que se está haciendo el despliegue. 
 
 
 Se recomienda el [tutorial de DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04) para configurar todo el proceso de Nginx y Django en ambiente de producción.
