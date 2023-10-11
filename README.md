@@ -1,8 +1,8 @@
 
 
 <p align="center">
-    <img src="http://www.ucv.ve/typo3temp/pics/6b94159b4e.png" alt="UCV Logo" width="150px" style="margin-left: 30px;">
-    <img src="http://computacion.ciens.ucv.ve/escueladecomputacion/img/layout_publico/encabezado/logo_ciencias.jpg" alt="Facultad de Ciencias Logo" width="150px" style="margin-left:30px">
+    <img src="http://www.ucv.ve/typo3temp/pics/6b94159b4e.png" alt="UCV Logo" width="150px" style="margin-left: 150px;">
+    <img src="http://computacion.ciens.ucv.ve/escueladecomputacion/img/layout_publico/encabezado/logo_ciencias.jpg" alt="Facultad de Ciencias Logo" width="150px" style="margin-left:150px">
     <img src="http://computacion.ciens.ucv.ve/escueladecomputacion/img/layout_publico/encabezado/logo_encabezado_nuevo.jpg" alt="Facultad de Ciencias Logo" width="150px">
 </p>
 
