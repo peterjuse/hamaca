@@ -46,6 +46,7 @@ El proyecto requiere ciertas variables de entorno para poder funcioinar. Se reco
 
 ```bash
 export DJANGO_SECRET_KEY=
+export DJANGO_SETTINGS_MODULE=
 export DJANGO_DB_NAME=
 export DJANGO_DB_USER=
 export DJANGO_DB_PASSWORD=
