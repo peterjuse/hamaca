@@ -27,7 +27,7 @@ Esta webapp esta desarrollada en el lenguaje de programación Python en su versi
 La aplicación web requiere para su funcionamiento y el almacenamiento de data referente a si misma la base de datos postgresql. En este [link oficial](https://www.postgresql.org/download/) con los instaladores y las instrucciones para poder instalarlo en los diversos dispositivos disponibles. Se requiere que una vez instalado el sistema manejador, crear una base de datos de nombre `hamaca` y un usuario gateway con el cual se pueda conectar la app a ella al momento de hacer las migraciones de los modelos de django a la base de datos.
 
 ### Mosquitto
-Mosquitto es la implementación del protocolo MQTT que se utiliza en este trabajo de investigación. Tiene la capacidad de actuar como cliente y broker. Se deja link a la [documentación oficial](https://mosquitto.org/download/) para su instalación.  
+Mosquitto es la implementación del protocolo MQTT que se utiliza en este trabajo de investigación. Tiene la capacidad de actuar como cliente y broker. Se deja link a la [documentación oficial](https://mosquitto.org/download/) para su instalación. Tambien es posible utilizar cualquier otra implementación del protocolo MQTT sea local o en la nube. 
 
 ### Nginx
 En el caso de querer desplegar esto en el modo de ambiente de producción tambien se requiere tener el Stack de Nginx configurado y activo. [Se puede seguir la guía de instalación oficial](https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/) según la plataforma deseada
