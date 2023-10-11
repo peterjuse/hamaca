@@ -1,7 +1,13 @@
+<style> 
+  .image-spacing { 
+    margin-right: 25px; 
+  } 
+</style> 
+
 <p align="center">
-    <img src="http://www.ucv.ve/typo3temp/pics/6b94159b4e.png" alt="UCV Logo" width="150px">
-    <img src="http://computacion.ciens.ucv.ve/escueladecomputacion/img/layout_publico/encabezado/logo_ciencias.jpg" alt="Facultad de Ciencias Logo" width="150px">
-    <img src="http://computacion.ciens.ucv.ve/escueladecomputacion/img/layout_publico/encabezado/logo_encabezado_nuevo.jpg" alt="Facultad de Ciencias Logo" width="150px">
+    <img src="http://www.ucv.ve/typo3temp/pics/6b94159b4e.png" alt="UCV Logo" width="150px" class="image-spacing">
+    <img src="http://computacion.ciens.ucv.ve/escueladecomputacion/img/layout_publico/encabezado/logo_ciencias.jpg" alt="Facultad de Ciencias Logo" width="150px" class="image-spacing">
+    <img src="http://computacion.ciens.ucv.ve/escueladecomputacion/img/layout_publico/encabezado/logo_encabezado_nuevo.jpg" alt="Facultad de Ciencias Logo" width="150px" class="image-spacing">
 </p>
 
 
