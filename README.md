@@ -1,5 +1,13 @@
-# hamaca
-Repositorio de la aplicación web hamaca parte de la interfaz de usuario para TEG
+<p align="center">
+    <img src="http://www.ucv.ve/typo3temp/pics/6b94159b4e.png" alt="UCV Logo" width="150px">
+    <img src="http://computacion.ciens.ucv.ve/escueladecomputacion/img/layout_publico/encabezado/logo_ciencias.jpg" alt="Facultad de Ciencias Logo" width="150px">
+    <img src="http://computacion.ciens.ucv.ve/escueladecomputacion/img/layout_publico/encabezado/logo_encabezado_nuevo.jpg" alt="Facultad de Ciencias Logo" width="150px">
+</p>
+
+
+# Herramienta de Automatización, Monitoreo y Analisis de Componentes y Artefactos (HAMACA)
+
+Este es el repositorio de la aplicación "Herramienta de Automatización, Monitoreo y Analisis de Componentes y Artefactos" (HAMACA) como parte del desarrollo e investigación realizado para el Trabajo Especial de Grado, con el fin de ser un framework para laboratorios de IoT y entorno de ourebas y desarollos en el area de la automatización de procesos. Ademas este repositorio tambien contiene las configuraciones de herramientas integradas a este proyecto.
 
 # Requsitos previos
 Como requisitos previos para correr esta aplicación se sugiere la utlización de un ambiente virtual en python. Estos se pueden crear de la siguiente forma:
