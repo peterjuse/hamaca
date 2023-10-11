@@ -9,26 +9,88 @@
 
 # Herramienta de Automatización, Monitoreo y Analisis de Componentes y Artefactos (HAMACA)
 
-Este es el repositorio de la aplicación "Herramienta de Automatización, Monitoreo y Analisis de Componentes y Artefactos" (HAMACA) como parte del desarrollo e investigación realizado para el Trabajo Especial de Grado, con el fin de ser un framework para laboratorios de IoT y entorno de ourebas y desarollos en el area de la automatización de procesos. Ademas este repositorio tambien contiene las configuraciones de herramientas integradas a este proyecto.
+## Introducción 
+Este es el repositorio de la aplicación "Herramienta de Automatización, Monitoreo y Analisis de Componentes y Artefactos" (HAMACA), que tiene como fin el de ser un framework para laboratorios de IoT y entorno de purebas y desarollos en el area de la automatización de procesos. Ademas este repositorio tambien contiene las configuraciones de herramientas integradas a este proyecto.
 
-# Requsitos previos
-Como requisitos previos para correr esta aplicación se sugiere la utlización de un ambiente virtual en python. Estos se pueden crear de la siguiente forma:
+Este proyecto academico se realiza como parte del desarrollo e investigación realizado para el Trabajo Especial de Grado para la [Escuela de Computación](http://computacion.ciens.ucv.ve/escueladecomputacion/) de la [Facultad de Ciencias](http://www.ciens.ucv.ve/ciens/) de la [Universidad Central de Venezuela](http://www.ucv.ve/).
 
-Tener instalado y activo postgresql.
-Tener instalado mosquitto.
-Ambiente de python con librerias del proyecto.
+## Requsitos previos
+Como requisitos previos para correr esta aplicación se necesita tener primero las siguientes aplicaciones instaladar. 
+
+### Docker
+Este proyecto usa las imagenes docker de varias integraciones. Se anexa la [documentación oficial](https://docs.docker.com/get-docker/) para realizar la instalación según sea requerido.
+
+### Python
+Esta webapp esta desarrollada en el lenguaje de programación Python en su version 3.10. Esta es [la página oficial del lenguaje](https://www.python.org/) y su [sección de descargas](https://www.python.org/downloads/) en caso de que no se posea en el sistema operativo
+
+### Postgresql
+
+### Mosquitto
+
+### Nginx
+En el caso de querer desplegar esto en el modo de ambiente de producción tambien se requiere tener el Stack de Nginx configurado y activo.
+
+## Instalación
+Se sugiere la utlización de un ambiente virtual en python. Estos se pueden crear de la siguiente forma:
+
+```bash
+python -m venv hamaca-env
+```
+
 Variables de entorno necesarias para el proyecto
-Stack de Nginx configurado y activo para el despligue en caso de estar en ambiente de producción.
 
 
-# Como correr este proyecto
+Lo primero es ubicarse en la carpeta docker_stack que contine los archivos de docker, docker compose y los archivos de configuración de las aplicaciones del stack utilizado por el proyecto. A continuación estan la serie de pasos para poder tener el ambiente desplegado.
 
-Con la base de datos Postgresql y el broker mosquitto como servicios activos, se puede proceder a correr este proyecto.
+1. Correr el archivo Dockerfile para obtener la imagen de node-red modificada que contine los plugins necesarios para los flujos y la pestaña de actuadores. Para ello haremos uso del comando: 
+```bash 
+docker build . -t node-red-teg 
+``` 
 
-Lo primero es ubicarse en la carpeta docker_stack que contine los archivos de docker, docker compose y los archivos de configuración de las aplicaciones del stack utilizado por el proyecto. Se debe correr en el siguiente orden:
+2. Se procede a levantar el ambiente de python con sus dependencias. Se hace de la suguiente forma: 
+En Windows, ejecuta:
+```bash
+hamaca-env\Scripts\activate
+```
+En Unix o MacOS, ejecuta:
+```bash
+source hamaca-env/bin/activate
+```
+Para poder instalar las dependencias necesarias y que se encuentran listadas en el archivo `requirements.txt` hacemos uso del comando:
+```python
+pip install -r requirements.txt
+```
 
-1. Correr el archivo Dockerfile para obtener la imagen de node-red modificada que contine los plugins necesarios para los flujos y la pestaña de actuadores. Para ello haremos uso del comando docker build . -t node-red-teg.
-2. Correr el archivo de docker-compose para levantar la base de datos InfluxDB, la aplicación de Grafana y la apliación de Node-Red modificada, a traves del comando docker-compose up.
-3. Levantado el ambiente de python con sus dependencias, se hace lo suigiente. En caso de ser la primera ejecución cargar en la base de datos de postgres los modelos requeridos de la apliación haciendo uso del comando python manage.py migrate y luego llenando la data incial requerida por la app con el comando python manage.py loaddata <fixture>, donde fixture son los archivos.json de cada modulo que sirven de fixture dentro del desarollo. Aparte se necesita crear un usuario administrador de la aplicación haciendo uso del comando django-admin createuser <nombre de usuario> con el que se iniciara la app por primera vez.
-5. Si ya se ha corrido los pasos del framework django anteriormente yya se puede correr la apliación haciendo uso del comando python manage.py runserver <host>. Con ello la aplicación web se levantara junto a todos los modulos desarrollados. 
-6. Si es la primera vez que se levanta el ambiente de la app será necesario ajustar los paneles iniciales de las apliaciones de grafana, node-red y la configuración de influxdb de forma que todos los componentes se comuniquen de manera adecuda. 
+3. Con la base de datos Postgresql como servicio activo pasamos a cargar en la base de datos de postgres los modelos requeridos de la apliación. Esto se hace de la suigiente manera:
+```bash
+python manage.py migrate
+```
+ 
+4. Luego llenando la data incial requerida por la app, donde fixture son los archivos.json de cada modulo. Se hace con el comando 
+```bash
+python manage.py loaddata <directorio del modulo>/<fixture> 
+``` 
+
+5. Aparte se necesita crear un usuario administrador de la aplicación con el que se iniciara la app por primera vez. Esto se hace usando del comando 
+ ```bash
+django-admin createuser <nombre de usuario>
+```
+
+6. Si es la primera vez que se levanta el ambiente de la app será necesario ajustar los paneles iniciales de las apliaciones de grafana, la configuración de influxdb como fuente de datos en grafana como se muestra en la figura. 
+
+  <img src="https://images.ctfassets.net/o7xu9whrs0u9/5bTkzeL0eGHSDnJAEep4j8/5e1e717658472b6b5e5f5f8e45734c4e/Grafana_and_InfluxDB_connection_setup.png" alt="InfluxDB connection in Grafana">
+
+## Como correr este proyecto
+
+Antes de poder correr la webapp es necesario levantar todos los elementos dockerizados con el fin que se muestren todas las integraciones que usa el proyecto. Esto se hace de la siguiente forma: ubicandonos en la carpeta `docker_stack` se encuentra el archivo de docker-compose para levantar la base de datos InfluxDB, la aplicación de Grafana y la apliación de Node-Red modificada, a traves del comando:
+```bash 
+docker-compose up 
+```
+si deseamos no ver el log de las interfaces podemos agregarle el parametro 	`-d` para utilizar la consola en modo detached.
+
+Luego tener levantadas todas las imagenes de las integraciones, con el entorno de python aun activo procedemos a hacer lo siguiente: 
+
+```bash
+python manage.py runserver <host>
+``` 
+Con ello la aplicación web se levantara junto a todos los modulos desarrollados. 
