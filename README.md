@@ -1,6 +1,6 @@
 <style> 
   .image-spacing { 
-    margin-right: 25px; 
+    padding-right: 10px; 
   } 
 </style> 
 
