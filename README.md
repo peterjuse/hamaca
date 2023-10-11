@@ -36,10 +36,10 @@ En el caso de querer desplegar esto en el modo de ambiente de producción tambie
 Se recomienda el [tutorial de DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04) para configurar todo el proceso de Nginx y Django en ambiente de producción.
 
 ## Instalación
-Se sugiere la utlización de un ambiente virtual en python. Estos se pueden crear de la siguiente forma:
+Se sugiere la utlización de un ambiente virtual de Python 3. Estos se pueden crear de la siguiente forma:
 
 ```bash
-python -m venv hamaca-env
+python3 -m venv hamaca-env
 ```
 
 El proyecto requiere ciertas variables de entorno para poder funcioinar. Se recomienda el uso de un archivo `.env` en el cual se inicialicen esas variables. La lista es la siguiente
