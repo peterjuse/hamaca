@@ -112,4 +112,4 @@ Luego tener levantadas todas las imagenes de las integraciones, con el entorno d
 ```bash
 python manage.py runserver <host>
 ``` 
-Con ello la aplicación web se levantara junto a todos los modulos desarrollados. 
+Donde <host> puede es la dirección ip a la que escuchará las peticiones el proyecto. Con ello la aplicación web se levantara junto a todos los modulos desarrollados y estará listo para su utilización. 
