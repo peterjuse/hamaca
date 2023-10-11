@@ -24,11 +24,16 @@ Este proyecto usa las imagenes docker de varias integraciones. Se anexa la [docu
 Esta webapp esta desarrollada en el lenguaje de programación Python en su version 3.10. Esta es [la página oficial del lenguaje](https://www.python.org/) y su [sección de descargas](https://www.python.org/downloads/) en caso de que no se posea en el sistema operativo
 
 ### Postgresql
+La aplicación web requiere para su funcionamiento y el almacenamiento de data referente a si misma la base de datos postgresql. En este [link oficial](https://www.postgresql.org/download/) con los instaladores y las instrucciones para poder instalarlo en los diversos dispositivos disponibles. Se requiere que una vez instalado el sistema manejador, crear una base de datos de nombre `hamaca` y un usuario gateway con el cual se pueda conectar la app a ella al momento de hacer las migraciones de los modelos de django a la base de datos.
 
 ### Mosquitto
+Mosquitto es la implementación del protocolo MQTT que se utiliza en este trabajo de investigación. Tiene la capacidad de actuar como cliente y broker. Se deja link a la [documentación oficial](https://mosquitto.org/download/) para su instalación.  
 
 ### Nginx
-En el caso de querer desplegar esto en el modo de ambiente de producción tambien se requiere tener el Stack de Nginx configurado y activo.
+En el caso de querer desplegar esto en el modo de ambiente de producción tambien se requiere tener el Stack de Nginx configurado y activo. [Se puede seguir la guía de instalación oficial](https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/) según la plataforma deseada
+
+
+Se recomienda el [tutorial de DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04) para configurar todo el proceso de Nginx y Django en ambiente de producción.
 
 ## Instalación
 Se sugiere la utlización de un ambiente virtual en python. Estos se pueden crear de la siguiente forma:
@@ -37,8 +42,21 @@ Se sugiere la utlización de un ambiente virtual en python. Estos se pueden crea
 python -m venv hamaca-env
 ```
 
-Variables de entorno necesarias para el proyecto
+El proyecto requiere ciertas variables de entorno para poder funcioinar. Se recomienda el uso de un archivo `.env` en el cual se inicialicen esas variables. La lista es la siguiente
 
+```bash
+export DJANGO_SECRET_KEY=
+export DJANGO_DB_NAME=
+export DJANGO_DB_USER=
+export DJANGO_DB_PASSWORD=
+export DJANGO_DB_HOST=
+export DJANGO_DB_PORT=
+```
+
+Una vez llenas esas variables de entorno se pueden cargar usando el comando
+```bash
+source .env
+```
 
 Lo primero es ubicarse en la carpeta docker_stack que contine los archivos de docker, docker compose y los archivos de configuración de las aplicaciones del stack utilizado por el proyecto. A continuación estan la serie de pasos para poder tener el ambiente desplegado.
 
