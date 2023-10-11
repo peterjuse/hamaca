@@ -12,7 +12,7 @@
 ## Introducción 
 Este es el repositorio de la aplicación "Herramienta de Automatización, Monitoreo y Analisis de Componentes y Artefactos" (HAMACA), que tiene como fin el de ser un framework para laboratorios de IoT y entorno de purebas y desarollos en el area de la automatización de procesos. Ademas este repositorio tambien contiene las configuraciones de herramientas integradas a este proyecto.
 
-Este proyecto academico se realiza como parte del desarrollo e investigación realizado para el Trabajo Especial de Grado para la [Escuela de Computación](http://computacion.ciens.ucv.ve/escueladecomputacion/) de la [Facultad de Ciencias](http://www.ciens.ucv.ve/ciens/) de la [Universidad Central de Venezuela](http://www.ucv.ve/).
+Este proyecto academico se realiza como parte del desarrollo e investigación realizado dentro del marco del Trabajo Especial de Grado para la [Escuela de Computación](http://computacion.ciens.ucv.ve/escueladecomputacion/) de la [Facultad de Ciencias](http://www.ciens.ucv.ve/ciens/) de la [Universidad Central de Venezuela](http://www.ucv.ve/) del bachiller Pedro Boll.
 
 ## Requsitos previos
 Como requisitos previos para correr esta aplicación se necesita tener primero las siguientes aplicaciones instaladar. 
