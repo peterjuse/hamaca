@@ -112,4 +112,5 @@ Luego tener levantadas todas las imagenes de las integraciones, con el entorno d
 ```bash
 python manage.py runserver <host>
 ``` 
-Donde `<host>` es la dirección ip a la que escuchará las peticiones el proyecto (si se desea se puede dejar en vacio o usar 0.0.0.0:pueto para escuchar peticiones desde cualquier punto). Con ello la aplicación web se levantara junto a todos los modulos desarrollados y estará listo para su utilización. 
+Donde `<host>` es la dirección ip a la que escuchará las peticiones el proyecto (si se desea se puede dejar en vacio o usar `0.0.0.0:<puerto>` para escuchar peticiones desde cualquier punto). Con ello la aplicación web se levantara junto a todos los modulos desarrollados y estará listo para su utilización. 
+
