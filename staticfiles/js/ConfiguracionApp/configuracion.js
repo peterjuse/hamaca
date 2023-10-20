@@ -266,11 +266,15 @@ function abrirModalEditarUsuario(userid){
             'id_usuario': userid,
         },
         success: function(data) {
-            $('input[name=up_usuario]').val(data['up_username']);
-            $('input[name=up_nombre]').val(data['up_nombre']);
-            $('input[name=up_apellido]').val(data['up_apellido']);
-            $('input[name=up_correo]').val(data['up_correo']);
-            $("#modalEditarUsuario").modal('show');
+            if(!data.hasOwnProperty("error")){
+                $('input[name=up_usuario]').val(data['up_username']);
+                $('input[name=up_nombre]').val(data['up_nombre']);
+                $('input[name=up_apellido]').val(data['up_apellido']);
+                $('input[name=up_correo]').val(data['up_correo']);
+                $("#modalEditarUsuario").modal('show');
+            }else{
+                alert(data['error']);
+            }
         }
     });
 }

@@ -27,7 +27,7 @@ def to_redes(request):
 
 
 def update_datos(request):
-    if  request.method == "POST" and is_ajax(request)():
+    if  request.method == "POST" and is_ajax(request):
         lista_topicos = MQTTdef.objects.all()
         cant_topicos = len(lista_topicos)
         cant_topicos_activos = len(MQTTdef.objects.filter(status=True))

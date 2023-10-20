@@ -73,6 +73,7 @@
                   <th scope="col">Nombre</th>
                   <th scope="col">Apellido</th>
                   <th scope="col">Correo</th>
+                  <th scope="col">Administrador</th>
                   <th scope="col">Opciones</th>
               </tr>
           </thead>
@@ -84,6 +85,11 @@
                   <td>{{usuario.first_name}}</td>
                   <td>{{usuario.last_name}}</td>
                   <td>{{usuario.email}}</td>
+                  {% if usuario.is_superuser %}
+                    <td>Si</td>
+                  {% else %}
+                    <td>No</td>
+                  {% endif %}
                   <td>
                     <button type="button" class="btn btn-info" onclick="abrirModalEditarUsuario({{usuario.id}})">
                         <i class="fas fa-edit"></i>

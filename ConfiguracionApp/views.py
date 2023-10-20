@@ -34,8 +34,7 @@ def validar_datos_usuario(datos):
     if not re.match('^(?=.*[a-zA-Z].+$)', datos['password']):
         errores['password2'] = "La contrase&ntilde;a debe poseer al menos una" \
                                 " letra."
-    if not re.match('^(?=.*[0-9].+$)', datos['password']):
-        import pudb; pudb.set_trace()
+    if not any(char.isdigit() for char in datos.get('password')):
         errores['password3'] = "La contrase&ntilde;a debe poseer al menos un " \
                                 "n&uacute;mero."
     if not re.match('(?:[^`!@#$%^&*\-_=+.]*[`!@#$%^&*\-_=+.])', datos['password']):
@@ -103,9 +102,10 @@ def crear_usuario(request):
 
 
 def get_datos_usuario(request):
-    if  request.method == "POST" and request.is_ajax():
+    if  request.method == "POST" and is_ajax(request):
         user_id = request.POST.get('id_usuario',None)
-        if user_id:
+        import pudb; pudb.set_trace()
+        if user_id and (user_id == str(request.user.id) or request.user.is_superuser):
             usuario = User.objects.get(pk=user_id)
             data = {
                 'up_username': usuario.username,
@@ -114,6 +114,8 @@ def get_datos_usuario(request):
                 'up_correo':usuario.email,
             }
             return JsonResponse(data)
+        else:
+            return JsonResponse({'error':'Usted no posee privilegios para editar el usuario'})
 
 
 def update_service_url(request):
@@ -153,7 +155,7 @@ def editar_usuario(request):
                     if not re.match('^(?=.*[a-zA-Z].+$)', datos.get('password')):
                         errores['password2'] = "La contrase&ntilde;a debe poseer al menos una" \
                                                 " letra."
-                    if not re.match('^(?=.*[0-9].+$)', datos.get('password')):
+                    if not any(char.isdigit() for char in datos.get('password')):
                         errores['password3'] = "La contrase&ntilde;a debe poseer al menos un " \
                                                 "n&uacute;mero."
                     if not re.match('(?:[^`!@#$%^&*\-_=+.]*[`!@#$%^&*\-_=+.])', datos.get('password')):
