@@ -1,15 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 from django.db.models import Sum
 from .models import MQTTdef
 
+
 @login_required(login_url='/')
 def to_redes(request):
-    #import pudb;pudb.set_trace()
     lista_topicos = MQTTdef.objects.all()
     cant_topicos = len(lista_topicos)
     cant_topicos_activos = len(MQTTdef.objects.filter(status=True))
@@ -27,8 +25,9 @@ def to_redes(request):
     }
     return render(request,'redes.html',context)
 
+
 def update_datos(request):
-    if  request.method == "POST" and request.is_ajax():
+    if  request.method == "POST" and is_ajax(request)():
         lista_topicos = MQTTdef.objects.all()
         cant_topicos = len(lista_topicos)
         cant_topicos_activos = len(MQTTdef.objects.filter(status=True))
@@ -42,3 +41,6 @@ def update_datos(request):
         }
         return JsonResponse(data)
 
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'

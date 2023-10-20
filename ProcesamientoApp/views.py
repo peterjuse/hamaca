@@ -16,6 +16,7 @@ from bokeh.models.formatters import DatetimeTickFormatter
 from influxdb import InfluxDBClient, DataFrameClient
 from math import pi
 
+
 @login_required(login_url='/')
 def to_procesamiento(request):
     # cliente = InfluxDBClient(host='127.0.0.1',port=8086, username='gateway',
@@ -40,8 +41,9 @@ def to_procesamiento(request):
     # }   
     return render(request,'procesamiento.html')#,context)
 
+
 def obtener_ubicaciones(request):
-    if  request.method == "POST" and request.is_ajax():
+    if  request.method == "POST" and is_ajax(request):
         ubicacion = request.POST.get('ubicacion')
         cliente = InfluxDBClient(host='127.0.0.1',port=8086, username='gateway',
                                 password='MedicionesIoTDB',database='SensorData')
@@ -57,8 +59,9 @@ def obtener_ubicaciones(request):
     }
     return JsonResponse(data)   
 
+
 def obtener_dispositivos(request):
-    if  request.method == "POST" and request.is_ajax():
+    if  request.method == "POST" and is_ajax(request):
         dispositivo = request.POST.get('dispositivo')
         cliente = InfluxDBClient(host='127.0.0.1',port=8086, username='gateway',
                                 password='MedicionesIoTDB',database='SensorData')
@@ -74,8 +77,9 @@ def obtener_dispositivos(request):
     }
     return JsonResponse(data)     
 
+
 def obtener_mediciones(request):
-    if  request.method == "POST" and request.is_ajax():
+    if  request.method == "POST" and is_ajax(request):
         # Query de obtencion de los datos de una medicion
         dispositivo = request.POST.get('dispositivo')
         medicion = request.POST.get('medicion')
@@ -85,11 +89,9 @@ def obtener_mediciones(request):
                                 " where host='" + dispositivo + 
                                 "' and time < now() and time > now()-7d")
         cliente.close()
-
         df = respuesta[medicion]
         df.index = pd.to_datetime(df.index)
         df.replace(to_repace = "Error", value = df["variable"].mean())
-
         plot = figure(plot_height=300, sizing_mode='scale_width',title=medicion, toolbar_location="right")
         x = df.index
         y = df.variable
@@ -116,10 +118,13 @@ def obtener_mediciones(request):
             years=["%Y-%m-%d %H:%M:%S"],
         )
         plot.xaxis.major_label_orientation = pi/3
-
         script, div = components(plot)
         data = {
            'script': script,
            'div': div,
         }   
         return JsonResponse(data)  
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'

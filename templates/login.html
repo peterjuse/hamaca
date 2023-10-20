@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Webapp de control de Smart Gateway">
     <meta name="author" content="Pedro Boll">
-    <link rel="icon" href="">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
 
     <title>HAMACA</title>
 
@@ -24,10 +24,12 @@
 
   </head>
 
-  <body class="text-center">
+  <body class="text-center" style="background-color:#666666;">
     <form class="form-signin" method="post">
       {% csrf_token %}
-      <h2 class="h3 mb-3 font-weight-normal">Bienvenido a HAMACA</h2>
+      <img src="{% static 'images/hamaca_logo2.png' %}" alt="HAMACA Logo"  width="200" height="200">
+      <br><br>
+      <h2 class="h3 mb-3 font-weight-normal">Bienvenido</h2>
       <br>
       <h5>Por favor, Inicie Sesi&oacute;n</h5>
       <label for="inputUser" class="sr-only">Usuario</label>
@@ -40,8 +42,10 @@
         <!-- <span class="input-group-addon" id="basic-addon2"><i class="fa fa-key" aria-hidden="true"></i></span> -->
         <input type="password" id="inputPassword" class="form-control" placeholder="contrase&ntilde;a" required name="password">
       </div>
+      <br>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesi&oacute;n</button>
-      <p class="mt-5 mb-3 text-muted">&copy; 2018</p>
+      <p class="mt-5 mb-3 text-muted">&copy; Desarrollado por Pedro Luis Boll Lugo - 2023</p>
+      <p class="mt-5 mb-3 text-muted">&copy; Creditos reservados.</p>
     </form>
   </body>
 </html>

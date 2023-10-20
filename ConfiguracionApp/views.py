@@ -1,13 +1,12 @@
+import re
+
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 from .models import variables
-
-import re
 
 
 def validar_datos_usuario(datos):
@@ -21,7 +20,7 @@ def validar_datos_usuario(datos):
     if not datos['usuario'][0].isalpha():
         errores['usuario3'] = "El nombre de usuario debe comenzar con una " \
                             "letra."
-    if not re.match('^[a-z0-9_@+.-]+$',datos['usuario']):
+    if not re.match('^[a-z0-9_@+.-]+$', datos['usuario']):
         errores['usuario4'] = "El nombre de usuario solo puede tener " \
                             "n&uacute;meros, letras o los caracteres _, @, +," \
                             " ., -."
@@ -35,10 +34,11 @@ def validar_datos_usuario(datos):
     if not re.match('^(?=.*[a-zA-Z].+$)', datos['password']):
         errores['password2'] = "La contrase&ntilde;a debe poseer al menos una" \
                                 " letra."
-    if not re.match('^(?=.*[0-9].+$)',datos['password']):
+    if not re.match('^(?=.*[0-9].+$)', datos['password']):
+        import pudb; pudb.set_trace()
         errores['password3'] = "La contrase&ntilde;a debe poseer al menos un " \
                                 "n&uacute;mero."
-    if not re.match('(?:[^`!@#$%^&*\-_=+.]*[`!@#$%^&*\-_=+.])',datos['password']):
+    if not re.match('(?:[^`!@#$%^&*\-_=+.]*[`!@#$%^&*\-_=+.])', datos['password']):
         errores['password4'] = "La contrase&ntilde;a solo puede tener los " \
                                 "siguientes caracteres especiales: !, @, #, $, " \
                                 " %, ^, &, *, -, _, =, +, . o ?."
@@ -46,6 +46,7 @@ def validar_datos_usuario(datos):
     if datos['password'] != datos['repassword']:
         errores['repassword'] = "Las contase&ntilde;as deben coincidir." 
     return errores
+
 
 @login_required(login_url='/')
 def configuracion(request):
@@ -64,16 +65,18 @@ def configuracion(request):
     }
     return render(request,'configuracion.html',context)
 
+
 def existe_username(request):
-    if  request.method == "POST" and request.is_ajax():
+    if  request.method == "POST" and is_ajax(request):
         username = request.POST.get('usuario', None)
         data = {
             'existe': User.objects.filter(username__iexact=username).exists()
         }
         return JsonResponse(data)
 
+
 def crear_usuario(request):
-    if request.method == "POST" and request.is_ajax():
+    if request.method == "POST" and is_ajax(request):
         datos = request.POST
         errores = validar_datos_usuario(datos)
         data = {}
@@ -98,10 +101,11 @@ def crear_usuario(request):
                                     "continuar."
         return JsonResponse(data)
 
+
 def get_datos_usuario(request):
     if  request.method == "POST" and request.is_ajax():
         user_id = request.POST.get('id_usuario',None)
-        if user_id is not None:
+        if user_id:
             usuario = User.objects.get(pk=user_id)
             data = {
                 'up_username': usuario.username,
@@ -111,11 +115,12 @@ def get_datos_usuario(request):
             }
             return JsonResponse(data)
 
+
 def update_service_url(request):
-    if  request.method == "POST" and request.is_ajax():
+    if  request.method == "POST" and is_ajax(request):
         grafana_url = request.POST.get('grafana_url',None)
         nodered_url = request.POST.get('nodered_url',None)
-        if nodered_url is not None:
+        if nodered_url:
             nodered = variables.objects.get(pk=2)
             nodered.valor = nodered_url
             nodered.save()
@@ -126,8 +131,9 @@ def update_service_url(request):
         data = {}
         return JsonResponse(data)
 
+
 def editar_usuario(request):
-    if request.method == "POST" and request.is_ajax():
+    if request.method == "POST" and is_ajax(request):
         datos = request.POST
         errores = {}
         data = {}
@@ -136,7 +142,7 @@ def editar_usuario(request):
         if usuario and passw is not None:
             if usuario.check_password(passw):
                 # Validaciones del formato de correo electronico
-                if datos.get('email') is not '':
+                if datos.get('email'):
                     if not re.match("[^@]+@[^@]+\.[^@]+", datos.get('email')):
                         errores['email'] = "El correo electronico debe tener un formato valido."
                 if datos.get('password'):
@@ -147,10 +153,10 @@ def editar_usuario(request):
                     if not re.match('^(?=.*[a-zA-Z].+$)', datos.get('password')):
                         errores['password2'] = "La contrase&ntilde;a debe poseer al menos una" \
                                                 " letra."
-                    if not re.match('^(?=.*[0-9].+$)',datos.get('password')):
+                    if not re.match('^(?=.*[0-9].+$)', datos.get('password')):
                         errores['password3'] = "La contrase&ntilde;a debe poseer al menos un " \
                                                 "n&uacute;mero."
-                    if not re.match('(?:[^`!@#$%^&*\-_=+.]*[`!@#$%^&*\-_=+.])',datos.get('password')):
+                    if not re.match('(?:[^`!@#$%^&*\-_=+.]*[`!@#$%^&*\-_=+.])', datos.get('password')):
                         errores['password4'] = "La contrase&ntilde;a solo puede tener los " \
                                                 "siguientes caracteres especiales: !, @, #, $, " \
                                                 " %, ^, &, *, -, _, =, +, . o ?."
@@ -160,13 +166,13 @@ def editar_usuario(request):
             else:
                 errores['same_password']= "La contrase&ntilde;a del usuario no es correcta"
             if not errores:
-                if datos.get('nombre') is not usuario.first_name:
+                if datos.get('nombre') == usuario.first_name:
                     usuario.first_name = datos.get('nombre')
-                if datos.get('apellido') is not usuario.last_name:
+                if datos.get('apellido') == usuario.last_name:
                     usuario.last_name = datos.get('apellido')
-                if datos.get('email') is not usuario.email:
+                if datos.get('email') == usuario.email:
                     usuario.email = datos.get('email')
-                if (datos.get('password') is not usuario.password) and (datos.get('password') is not ''):
+                if datos.get('password') and datos.get('password') == usuario.password:
                     usuario.set_password(datos.get('password'))
                 usuario.save()        
                 data['ModalTitulo'] = "El usuario ha sido editado satisfactoriamente"
@@ -181,9 +187,9 @@ def editar_usuario(request):
                 data['errores'] = errores
     return JsonResponse(data)
 
+
 def borrar_usuario(request):
-    import pudb;pudb.set_trace()
-    if request.method == "POST" and request.is_ajax():
+    if request.method == "POST" and is_ajax(request):
         datos = request.POST
         data = {}
         errores = {}
@@ -204,3 +210,7 @@ def borrar_usuario(request):
                                     "Se han producido los siguientes errores:\n"
                 data['errores'] = errores
     return JsonResponse(data)
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
