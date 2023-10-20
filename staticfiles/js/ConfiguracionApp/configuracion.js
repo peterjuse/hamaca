@@ -377,20 +377,25 @@ function borrarUsuario(){
             'password': $('#validarPasswordBorarUsuario').val(),
         },
         success: function(data) {
-            //  Cerrando modal actual, mostrando modal resultado
-            $('#modalValidarBorrarUsuario').modal('hide');
-            $('#modalResultadoBorrarUsuario').modal();
-            $('#UsuarioBorrarStatus').text(data.ModalTitulo);
-            $('#msgModalBorrarUsuarioRes').text(data.ModalResultado);
-            // Si se encuentran errores se despliegan en el modal
-            if(data.errores){
-                $('#msgModalBorrarUsuarioRes').append(
-                    '<ul id="listaErrores"></ul>');
-                $.each(data.errores, function(i,val) {
-                    $('#listaErrores').append('<li>'+val+'</li>');
-                });
-                $('#msgModalBorrarUsuarioRes').append(
-                    '<p>Presione cerrar para continuar.</p>');
+            if(!data.hasOwnProperty("error_privilegios")){
+                //  Cerrando modal actual, mostrando modal resultado
+                $('#modalValidarBorrarUsuario').modal('hide');
+                $('#modalResultadoBorrarUsuario').modal();
+                $('#UsuarioBorrarStatus').text(data.ModalTitulo);
+                $('#msgModalBorrarUsuarioRes').text(data.ModalResultado);
+                // Si se encuentran errores se despliegan en el modal
+                if(data.errores){
+                    $('#msgModalBorrarUsuarioRes').append(
+                        '<ul id="listaErrores"></ul>');
+                    $.each(data.errores, function(i,val) {
+                        $('#listaErrores').append('<li>'+val+'</li>');
+                    });
+                    $('#msgModalBorrarUsuarioRes').append(
+                        '<p>Presione cerrar para continuar.</p>');
+                }
+                location.reload();
+            }else{
+                alert(data['error_privilegios']);
             }
         }
     });

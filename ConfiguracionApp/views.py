@@ -104,7 +104,6 @@ def crear_usuario(request):
 def get_datos_usuario(request):
     if  request.method == "POST" and is_ajax(request):
         user_id = request.POST.get('id_usuario',None)
-        import pudb; pudb.set_trace()
         if user_id and (user_id == str(request.user.id) or request.user.is_superuser):
             usuario = User.objects.get(pk=user_id)
             data = {
@@ -193,25 +192,28 @@ def editar_usuario(request):
 def borrar_usuario(request):
     if request.method == "POST" and is_ajax(request):
         datos = request.POST
-        data = {}
-        errores = {}
-        password = datos.get('password',None)
-        usuario = User.objects.get(pk=datos.get('id_usuario'))
-        if usuario and password is not None:
-            if not usuario.check_password(password):
-                errores['same_password']= "La contrase&ntilde;a del usuario no es correcta"
-            if not errores:
-                usuario.delete()
-                data['ModalTitulo'] = "El usuario ha sido eliminado satisfactoriamente"
-                data['ModalResultado'] = "La operación se ha realizado " \
-                                    "correctamente. Presione cerrar para " \
-                                    "continuar."
-            else:
-                data['ModalTitulo'] = "El usuario no ha sido eliminado "
-                data['ModalResultado'] = "La operación no se ha realizado. " \
-                                    "Se han producido los siguientes errores:\n"
-                data['errores'] = errores
-    return JsonResponse(data)
+        data, errores = {}, {}
+        if datos and (datos['id_usuario'] == str(request.user.id) or request.user.is_superuser):
+            password = datos.get('password',None)
+            usuario = User.objects.get(pk=datos.get('id_usuario'))
+            if usuario and password is not None:
+                if not usuario.check_password(password):
+                    errores['same_password']= "La contrase&ntilde;a del usuario no es correcta"
+                if not errores:
+                    usuario.delete()
+                    data['ModalTitulo'] = "El usuario ha sido eliminado satisfactoriamente"
+                    data['ModalResultado'] = "La operación se ha realizado " \
+                                        "correctamente. Presione cerrar para " \
+                                        "continuar."
+                else:
+                    data['ModalTitulo'] = "El usuario no ha sido eliminado "
+                    data['ModalResultado'] = "La operación no se ha realizado. " \
+                                        "Se han producido los siguientes errores:\n"
+                    data['errores'] = errores
+        else:
+            data['error_privilegios'] = 'No posee suficientes privilegios para realizar la acción'
+        return JsonResponse(data)
+
 
 
 def is_ajax(request):
