@@ -16,20 +16,12 @@ services:
     volumes:
       - influx-storage:/var/lib/influxdb2:rw
     environment:
-      - DOCKER_INFLUXDB_INIT_MODE=setup 
+      - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=gateway
       - DOCKER_INFLUXDB_INIT_PASSWORD=MedicionesIoTDB
-      - DOCKER_INFLUXDB_INIT_ORG=hamaca 
+      - DOCKER_INFLUXDB_INIT_ORG=hamaca
       - DOCKER_INFLUXDB_INIT_BUCKET=SensorData
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=teFxIycDw68sL5sJZGkGC7IjP3u0_-JXGa39t9yJxJ1uf6OLKVTdztzoEttiOtqwDPo_J735t9t83STFTA569g==
-  # prometheus:
-  #   image: prom/prometheus
-  #   ports:
-  #     - "9090:9090"
-  #     - "10087:10087"
-  #   volumes:
-  #     - /home/pedro/TEG/hamaca/prometheus.yml:/etc/prometheus/prometheus.yml
-  #   command: --config.file=/etc/prometheus/prometheus.yml
   grafana:
     image: grafana/grafana-oss:10.0.0-ubuntu
     restart: always
@@ -38,20 +30,18 @@ services:
     volumes:
       -  grafana-storage:/var/lib/grafana
       - ./docker_settings/grafana.ini:/etc/grafana/grafana.ini
-    # links:
-    #   - "prometheus"
     user: "472"
     depends_on:
       - influxdb
   nodered:
-    build:
-      context: .
-      dockerfile: docker_settings/node_red_teg/Dockerfile
-    ports:
-      - "1880:1880"
-    volumes:
-      - nodered-storage:/data
-      - ./docker_settings/node_red_teg/settings.js:/data/settings.js
+   build:
+     context: .
+     dockerfile: docker_settings/node_red_teg/Dockerfile
+   ports:
+     - "1880:1880"
+   volumes:
+     - nodered-storage:/data
+     - ./docker_settings/node_red_teg/settings.js:/data/settings.js
   # postgresql:
   #   image: postgres
   #   volumes:
@@ -62,11 +52,17 @@ services:
   #     - POSTGRES_USER=gateway
   #     - POSTGRES_PASSWORD=iotgateway
   #     - POSTGRES_DB=hamaca
-  # mqtt:
+  # mosquitto:
   #   image: eclipse-mosquitto
+  #   hostname: mosquitto
+  #   container_name: mosquitto
+  #   restart: unless-stopped
   #   ports:
   #     - "1883:1883"
   #     - "9001:9001"
+  #   volumes:
+  #     - ./mosquitto:/etc/mosquitto
+  #     - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
 
 volumes:
   grafana-storage:
@@ -74,9 +70,9 @@ volumes:
   influx-storage:
     external: true
   nodered-storage:
-    external: true
-  postgres_data:
-    
+   external: true
+  # postgres_data:
+
 
 networks:
   default:
