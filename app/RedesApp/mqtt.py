@@ -1,7 +1,4 @@
-import re
 import os
-import sys
-import arrow
 import json
 import paho.mqtt.client as mqtt
 
@@ -11,17 +8,18 @@ from influxdb import InfluxDBClient
 
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
-
+from time import sleep
 
 def on_connect(client, userdata, flags, rc):  # callback al conectarse al broker
+    sleep(.25)
     cliente.subscribe("#")  # Subscripcion a # para recibir todos los topicos
-    # from .models impor`wt MQTTdef
-    # topicos = MQTTdef.objects.all()
-    # for topico in topicos:
-    #     diferencia = datetime.now(timezone.utc) - topico.hora
-    #     if  diferencia.total_seconds >= 86400:
-    #         topico.status = False
-    #         topico.save()
+    from .models import MQTTdef
+    topicos = MQTTdef.objects.all()
+    for topico in topicos:
+        diferencia = datetime.now(timezone.utc) - topico.hora
+        if  diferencia.total_seconds() >= 86400:
+            topico.status = False
+            topico.save()
 
 
 def on_message(client, userdata, msg):  # callback al recibir un mensaje
@@ -47,10 +45,46 @@ def on_message(client, userdata, msg):  # callback al recibir un mensaje
             bd_topic.hora = datetime.now()
             bd_topic.save()
         else:
-            bd_topic = MQTTdef(nombre=msg.topic,cant_mensajes=1, mensajes_minuto=1,payload=msg.payload.decode('utf-8'))
+            bd_topic = MQTTdef(
+                nombre=msg.topic,
+                cant_mensajes=1,
+                mensajes_minuto=1,
+                payload=msg.payload.decode('utf-8')
+            )
             bd_topic.save()
+        try:
+            hora = rfc3339(datetime.strptime(payload['date'],'%Y-%m-%d %H:%M:%S.%f'))
+        except ValueError:
+            try:
+                hora = rfc3339(datetime.strptime(payload['date'],'%Y-%m-%d %H:%M:%S'))
+            except ValueError:
+                hora = rfc3339(datetime.strptime(payload['date'],'%Y-%m-%dT%H:%M:%SZ'))
+        except Exception as e:
+            print(f'ocurrio el siguiente error con parseando la fecha:\n{e}')
+        medicion = {
+            "measurement":payload["measurement_type"],
+            "tags": {
+                "host": payload["host_device"],
+                "region": payload["location"]
+            },
+            "fields": {
+                "sensor": payload["sensor"],
+                "valor": payload["value"]
+            },
+            "time": hora
+        }
+        try:
+            print(f"Topico: {topico} - Medicion: {medicion}")
+            write_api.write(bucket=bucket, record=medicion)
+            print('Insercion realizada correctamente')
+        except Exception as e:
+            print(f'Ocurrió un error al insertar dato:\n{e}')
+    except json.decoder.JSONDecodeError:
+        pass
 
-        # topico = topico.split('/')
+
+"""" codigo hardcoded de dispositivos para el onsmessage
+# topico = topico.split('/')
         # ubicacion = topico[0]
         # medida = topico[1]
         # if ubicacion == 'Indoor':
@@ -90,37 +124,7 @@ def on_message(client, userdata, msg):  # callback al recibir un mensaje
         #                 variable[variable.find(': ')+1:])
         #     if nombre_sensor == 'RASPICAM':
         #         variable = variable.replace('Persona detectada = ','')
-        try:
-            hora = rfc3339(datetime.strptime(payload['date'],'%Y-%m-%d %H:%M:%S.%f'))
-        except ValueError:
-            try:
-                hora = rfc3339(datetime.strptime(payload['date'],'%Y-%m-%d %H:%M:%S'))
-            except ValueError:
-                hora = rfc3339(datetime.strptime(payload['date'],'%Y-%m-%dT%H:%M:%SZ'))
-        except:
-            print(f'ocurrio el siguiente error con parseando la fecha:\n{e}')
-        print(hora)
-        medicion = {
-            "measurement":payload["measurement_type"],
-            "tags": {
-                "host": payload["host_device"],
-                "region": payload["location"] 
-            },
-            "fields": {
-                "sensor": payload["sensor"],
-                "valor": payload["value"]
-            },
-            "time": hora
-        }
-        try:
-            print(f"Topico: {topico} - Medicion: {medicion}")
-            #bd.write_points(medicion)
-            write_api.write(bucket=bucket, record=medicion)
-            print('Insercion realizada correctamente')
-        except Exception as e:
-            print(f'Ocurrió un error al insertar dato:\n{e}')
-    except json.decoder.JSONDecodeError:
-        pass
+"""
 
 
 #if __name__ == '__main__':            
@@ -135,7 +139,8 @@ url = 'http://localhost:8086'
 bucket = 'SensorData'
 client = InfluxDBClient(
     url=url,
-    token= 'nLUGvTKJnLsL94YTr-H2Ms-N_0BZPoKj9G_i7ImqmWlZCQ2HLXg3Aywb7byo5T3m5psCip9CSUw-pjxplgV7FA==',
+    #token= 'nLUGvTKJnLsL94YTr-H2Ms-N_0BZPoKj9G_i7ImqmWlZCQ2HLXg3Aywb7byo5T3m5psCip9CSUw-pjxplgV7FA==',
+    token=os.getenv("INFLUXDB_TOKEN"),
     org='hamaca'
 )
 write_api = client.write_api(write_options=SYNCHRONOUS)
