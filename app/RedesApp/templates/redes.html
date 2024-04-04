@@ -3,7 +3,7 @@
 
 {% block contenido %}
 
-<div class="inner-content">
+<div class="inner-content" style="padding-left: 0.075%;">
     <div class='row titulo-bg'>
         <div class='col-lg-12'>
             <h2 class="cabecera">Configuraci&oacute;n de Redes</h2>
@@ -41,9 +41,9 @@
     <br>
     <div class='row'>  
     <div class="col-lg-12">
-        <h5>Detalles</h5><br>
-        <div class='table-responsive'>
-        <table class="table table-sd table-hover">
+        <h5 >Detalles</h5><br>
+        <div class='table-responsive-sm'>
+        <table class="table table-sm table-hover">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Top&iacute;co</th>
@@ -66,7 +66,7 @@
                         {% endif %}
                     </td>
                     <td>{{topico.mensajes_minuto}}</td>
-                    <td>{{topico.hora}}</td>
+                    <td class="text-nowrap">{{topico.hora}}</td>
                     <td>{{topico.payload}}</td>
                 </tr>
                 {% endfor %}
@@ -89,7 +89,7 @@
         </span>
         {% if topicos.has_next %}
             <a href="?pagina={{ topicos.next_page_number }}">siguiente</a>
-            <a href="?pagina={{ topicos.paginator.num_pages }}">ultimo &raquo;</a>
+            <a href="?pagina={{ topicos.paginator.num_pages }}">último &raquo;</a>
         {% endif %}
         </span>
         </div>
