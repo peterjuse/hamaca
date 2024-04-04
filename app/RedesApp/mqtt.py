@@ -58,7 +58,10 @@ def on_message(client, userdata, msg):  # callback al recibir un mensaje
             try:
                 hora = rfc3339(datetime.strptime(payload['date'],'%Y-%m-%d %H:%M:%S'))
             except ValueError:
-                hora = rfc3339(datetime.strptime(payload['date'],'%Y-%m-%dT%H:%M:%SZ'))
+                try:
+                    hora = rfc3339(datetime.strptime(payload['date'],'%Y-%m-%dT%H:%M:%SZ'))
+                except ValueError:
+                    hora = rfc3339(datetime.strptime(payload['date'],'%Y-%m-%dT%H:%M:%S.%fZ'))
         except Exception as e:
             print(f'ocurrio el siguiente error con parseando la fecha:\n{e}')
         medicion = {
