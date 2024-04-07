@@ -3,7 +3,7 @@
 
 {% block contenido %}
 
-<div class="inner-content" style="padding-left: 0.075%;">
+<div class="inner-content" style="padding-left: 1.5%; width: 99.5%;">
   <div class='row'>
       <div class='col-lg-12 titulo-bg'>
           <h2 class="cabecera">Configuraci&oacute;n de la Aplicación</h2>
@@ -69,28 +69,28 @@
         <table class="table table-sd table-hover">
           <thead class="thead-dark">
               <tr>
-                  <th scope="col">Usuario</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Apellido</th>
-                  <th scope="col">Correo</th>
-                  <th scope="col">Administrador</th>
-                  <th scope="col">Opciones</th>
+                  <th scope="col" class="text-center" style="width:8%">Usuario</th>
+                  <th scope="col" class="text-center" style="width:10%">Nombre</th>
+                  <th scope="col" class="text-center" style="width:10%">Apellido</th>
+                  <th scope="col" class="text-center">Correo</th>
+                  <th scope="col" class="text-center" style="width:10%">Administrador</th>
+                  <th scope="col" class="text-center" style="width:15%">Opciones</th>
               </tr>
           </thead>
           <tbody class="table-hover">
             {% for usuario in usuarios %}
                 <tr>
                   <!-- <td>{{usuario.id}}</td> -->
-                  <td>{{usuario.username}}</td>
-                  <td>{{usuario.first_name}}</td>
-                  <td>{{usuario.last_name}}</td>
-                  <td>{{usuario.email}}</td>
+                  <td class="text-center">{{usuario.username}}</td>
+                  <td class="text-center">{{usuario.first_name}}</td>
+                  <td class="text-center">{{usuario.last_name}}</td>
+                  <td class="text-center">{{usuario.email}}</td>
                   {% if usuario.is_superuser %}
-                    <td>Si</td>
+                    <td class="text-center">Si</td>
                   {% else %}
-                    <td>No</td>
+                    <td class="text-center">No</td>
                   {% endif %}
-                  <td>
+                  <td class="text-center">
                     <button type="button" class="btn btn-info" onclick="abrirModalEditarUsuario({{usuario.id}})">
                         <i class="fas fa-edit"></i>
                     </button> 
@@ -105,10 +105,9 @@
       </div>
     </div>
   </div>
-  <div class='row'>
-    <div class="col-lg-3"></div>
-    <div class="col-lg-6">
-      <div class="pagination" style="text-align:center;">
+  <div class='row fixed-bottom'>
+    <div class="col-lg-12">
+      <div class="pagination" style="padding-left: 50%;">
         <span class="step-links">
         {% if usuarios.has_previous %}
           <a href="?pagina=1">&laquo; primera</a>
@@ -124,7 +123,6 @@
         </span>
       </div>
     </div>
-    <div class="col-lg-3"></div>
   </div>
 
 </div>

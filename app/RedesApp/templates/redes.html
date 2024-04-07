@@ -3,7 +3,7 @@
 
 {% block contenido %}
 
-<div class="inner-content" style="padding-left: 0.075%;">
+<div class="inner-content" style="padding-left: 1.5%; width: 99.5%">
     <div class='row titulo-bg'>
         <div class='col-lg-12'>
             <h2 class="cabecera">Configuraci&oacute;n de Redes</h2>
@@ -40,64 +40,65 @@
     </div>
     <br>
     <div class='row'>  
-    <div class="col-lg-12">
-        <h5 >Detalles</h5><br>
-        <div class='table-responsive-sm'>
-        <table class="table table-sm table-hover">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Top&iacute;co</th>
-                    <th scope="col">N&uacute;mero de Mensajes</th>
-                    <th scope="col">Activo</th>
-                    <th scope="col">Mensajes/min</th>
-                    <th scope="col">Hora</th>
-                    <th scope="col">Ultimo Mensaje</th>
-                </tr>
-            </thead>
-            <tbody class="table-hover" id="cuerpo_tabla">
-            {% for topico in topicos %}
-                <tr>
-                    <td>{{topico.nombre}}</td>
-                    <td>{{topico.cant_mensajes}}</td>
-                    <td>{% if topico.status %}
-                            Activo
-                        {% else %}
-                            Inactivo
-                        {% endif %}
-                    </td>
-                    <td>{{topico.mensajes_minuto}}</td>
-                    <td class="text-nowrap">{{topico.hora}}</td>
-                    <td>{{topico.payload}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>  
+        <div class="col-lg-12">
+            <h5 >Detalles</h5><br>
+            <div class='table-responsive-sm'>
+                <table class="table table-sm table-hover" style="table-layout:fixed;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center" style="width:15%">T&oacute;pico</th>
+                            <th scope="col" class="text-center" style="width:9%">Cantidad de Mensajes</th>
+                            <th scope="col" class="text-center" style="width:8%">Estatus</th>
+                            <th scope="col" class="text-center" style="width:7%">Msjs/min</th>
+                            <th scope="col" class="text-center" style="width:10%">Fecha</th>
+                            <th scope="col" class="text-center">&Uacute;ltimo Mensaje</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-hover" id="cuerpo_tabla">
+                    {% for topico in topicos %}
+                        <tr>
+                            <td class="text-center">{{topico.nombre}}</td>
+                            <td class="text-center">{{topico.cant_mensajes}}</td>
+                            <td class="text-center">
+                                {% if topico.status %}
+                                    Activo
+                                {% else %}
+                                    Inactivo
+                                {% endif %}
+                            </td>
+                            <td class="text-center">{{topico.mensajes_minuto}}</td>
+                            <td class="text-center">{{topico.hora}}</td>
+                            <td>{{topico.payload}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    </div>
-    <div class='row'>
-    <div class="col-lg-3"></div>
-    <div class="col-lg-6">
-        <div class="pagination" style="text-align:center;">
-        <span class="step-links">
-        {% if topicos.has_previous %}
-            <a href="?pagina=1">&laquo; primera</a>
-            <a href="?pagina={{ topicos.previous_page_number }}">anterior</a>
-        {% endif %}
-        <span class="current">
-            Pagina {{ topicos.number }} de {{ topicos.paginator.num_pages }}
-        </span>
-        {% if topicos.has_next %}
-            <a href="?pagina={{ topicos.next_page_number }}">siguiente</a>
-            <a href="?pagina={{ topicos.paginator.num_pages }}">último &raquo;</a>
-        {% endif %}
-        </span>
+    <div class='row fixed-bottom'>
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <div class="pagination" style="padding-left: 50%;">
+                <span class="step-links">
+                    {% if topicos.has_previous %}
+                        <a href="?pagina=1">&laquo; primera</a>
+                        <a href="?pagina={{ topicos.previous_page_number }}">anterior</a>
+                    {% endif %}
+                    <span class="current">
+                        Pagina {{ topicos.number }} de {{ topicos.paginator.num_pages }}
+                    </span>
+                    {% if topicos.has_next %}
+                        <a href="?pagina={{ topicos.next_page_number }}">siguiente</a>
+                        <a href="?pagina={{ topicos.paginator.num_pages }}">último &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
-    </div>
-    <div class="col-lg-3"></div>
+        <div class="col-lg-3"></div>
     </div>
 </div>
-  
+
 <link href="{% static 'css/RedesApp/configuracion.css' %}" rel="stylesheet">
 <script src="{% static 'js/RedesApp/configuracion.js' %}"></script>
 

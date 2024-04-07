@@ -54,7 +54,7 @@ def configuracion(request):
     lista_usuarios = User.objects.all()
     grafana = variables.objects.get(pk=1)
     nodered = variables.objects.get(pk=2)
-    paginator = Paginator(lista_usuarios, 5)
+    paginator = Paginator(lista_usuarios, 8)
     pagina = request.GET.get('pagina')
     usuarios = paginator.get_page(pagina)
     context = {

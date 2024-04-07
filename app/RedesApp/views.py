@@ -16,6 +16,7 @@ def to_redes(request):
     paginator = Paginator(lista_topicos, 5)
     pagina = request.GET.get('pagina')
     topicos = paginator.get_page(pagina)
+    topicos.object_list = list(map(formatear_topico, topicos))
     context = {
         'topicos':topicos,
         'cant_mensajes_recibidos': cant_mensajes_recibidos['cant_mensajes__sum'],
@@ -44,3 +45,8 @@ def update_datos(request):
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+
+def formatear_topico(topico):
+    topico.payload = topico.payload.replace(",", "\n")
+    return topico

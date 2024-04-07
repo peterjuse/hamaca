@@ -16,7 +16,7 @@
     height: 100%;
     margin-left: 0px;
     width: 14%; 
-    position: fixed; 
+    position: absolute; 
     z-index: 1;
     top: 0; 
     left: 0;
@@ -29,7 +29,7 @@
 /* Espacio destinado para el header del sidebar */ 
 #sidebar .sidebar-header {
     padding: 17px;
-    background: #666666;
+    background: #42484e;
 }
 
 /* Estilo de la letra del sidebar-header */
@@ -72,7 +72,14 @@ cambie de color */
 
 /*Espacio entre los links y el boton de cerrar sesion */
 #botonlogout {
-    padding-top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-decoration: none;
+    font-size: 1em;
+    color: #818181;
+    display: block;
+    position: absolute;
+    bottom: 0;
 }
 
 /* Estilo del boton de cerrar sesion */
@@ -99,7 +106,7 @@ cambie de color */
 .titulo-bg{
     padding-top: 18px;
     padding-right: 0px;
-    background-color: #6d6b6b;
+    background-color: #42484e;
 }
 
 .container{
@@ -114,7 +121,7 @@ cambie de color */
 .bordes-nulos{
     margin-left: 0%;
     margin-right: 1px;
-    padding-left: 1.75%;
+    padding-left: 0.5%;
 }
 
 /* ---------------------------------------------------

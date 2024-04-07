@@ -17,7 +17,7 @@ def on_connect(client, userdata, flags, rc):  # callback al conectarse al broker
     topicos = MQTTdef.objects.all()
     for topico in topicos:
         diferencia = datetime.now(timezone.utc) - topico.hora
-        if  diferencia.total_seconds() >= 86400:
+        if diferencia.total_seconds() >= 86400:
             topico.status = False
             topico.save()
 

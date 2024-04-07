@@ -44,54 +44,58 @@
         </h5>
         <span class=""></span> 
       </div>
-      <center>
-        <ul class="list-unstyled components">
-          <li class="active">
-            <a href="{% url 'HomeApp:noderedcontrol' %}">
-              <i class="fas fa-home"></i>
-              <p>Hogar</p>
+      <div class="sidebar">
+        <center>
+          <ul class="list-unstyled components">
+            <li class="active">
+              <a href="{% url 'HomeApp:noderedcontrol' %}">
+                <i class="fas fa-home"></i>
+                <p>Hogar</p>
+              </a>
+            </li>
+            <li class="">
+              <a href="{% url 'MonitorApp:grafana' %}">
+                <i class="fas fa-chart-line"></i>
+                <p>Monitoreo</p>
+              </a>
+            </li>
+            <li class="">
+              <a href="{% url 'ControlApp:noderedrecipes' %}">
+                <i class="fas fa-toggle-on"></i>
+                <p>Control</p>
+              </a>
+            </li>
+            <li class="">
+              <a href="{% url 'RedesApp:redes' %}">
+              <i class="fas fa-signal"></i>
+              <p>Redes</p>
             </a>
-          </li>
-          <li class="">
-            <a href="{% url 'MonitorApp:grafana' %}">
-              <i class="fas fa-chart-line"></i>
-              <p>Monitoreo</p>
+            </li>
+            <!-- <li class="">
+              <a href="{% url 'ProcesamientoApp:procesamiento' %}">
+                <i class="fas fa-cogs"></i>
+                <p>Procesamiento</p>
             </a>
-          </li>
-          <li class="">
-            <a href="{% url 'ControlApp:noderedrecipes' %}">
-              <i class="fas fa-toggle-on"></i>
-              <p>Control</p>
-            </a>
-          </li>
-          <li class="">
-            <a href="{% url 'RedesApp:redes' %}">
-            <i class="fas fa-signal"></i>
-            <p>Redes</p>
-          </a>
-          </li>
-          <!-- <li class="">
-            <a href="{% url 'ProcesamientoApp:procesamiento' %}">
-              <i class="fas fa-cogs"></i>
-              <p>Procesamiento</p>
-          </a>
-          </li> -->
-          <li class="">
-            <a href="{% url 'ConfiguracionApp:configuracion' %}">
-                <i class="fas fa-wrench"></i>  
-                <p>Configuraci&oacute;n</p>
-            </a>
-          </li>
-        </ul>
-        <div id="botonlogout">
+            </li> -->
+            <li class="">
+              <a href="{% url 'ConfiguracionApp:configuracion' %}">
+                  <i class="fas fa-wrench"></i>  
+                  <p>Configuraci&oacute;n</p>
+              </a>
+            </li>
+          </ul>
+        </center>
+      </div>
+      <div id="botonlogout">
+        <center> 
           <button type="button" id="logout" class="btn btn-secondary navbar-btn">
             <a href="{% url 'salir' %}" style="color:#333;text-decoration:none">
               <span id="logoutText">Cerrar Sesi&oacute;n</span>
               <i class="fas fa-sign-out-alt"></i>
             </a>
-          </button> 
-        </div>
-      </center>
+          </button>
+        </center> 
+      </div>
     </nav>
     <div id="content">
       <div class="container bordes-nulos">
